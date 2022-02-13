@@ -10,25 +10,29 @@ int main(int argc, char* argv[])
 	else
 	{
 		/** VARIABLES **/
-		unsigned int i;
+		int i;
 		char* fileToRead = argv[1];
-		unsigned int totalNode = atoi(argv[2]);
+		int totalNode = atoi(argv[2]);
 
-		unsigned int cpt = 0; //iteration cpt
-		unsigned int convergence =1; //True
-		unsigned int highestNodeNbr =0; //highest id number for a node (size of nbrOutwardLink)
-		unsigned int fileLineNbr = 0; //number of line in file (size of sparse matrix)
+		int cpt = 0; //iteration cpt
+		int convergence =1; //True
+		int highestNodeNbr =0; //highest id number for a node (size of nbrOutwardLink)
+		int fileLineNbr = 0; //number of line in file (size of sparse matrix)
 
 		double sum = 0;
 
+
 		highestNodeNbr = get_highest_node_number(&fileLineNbr,fileToRead);
+
 
 		/** ARRAY AND MATRIX **/
 		double VectorResult[totalNode]; 
 		double VectorBackup[totalNode]; 
 
-		sparseMatrix matrix[fileLineNbr]; //sparse matrix
-		WebPage nbrOutwardLink[highestNodeNbr+1]; //array of nodes with their outward links
+
+		sparseMatrix* matrix = (sparseMatrix*) malloc(fileLineNbr*sizeof(sparseMatrix)); //sparse matrix
+		WebPage* nbrOutwardLink =(WebPage*) malloc((highestNodeNbr+1)*sizeof(WebPage)); //array of nodes with their outward links
+
 
 		/** INITIALIZATION **/
 		for (i = 0; i < highestNodeNbr+1; i++) //nbrOutwardLink
@@ -45,7 +49,6 @@ int main(int argc, char* argv[])
  			VectorResult[i] = (1.0/totalNode);
  			VectorBackup[i] = (1.0/totalNode);
  		}
-
 
  		/** ITERATION **/
  		while (cpt < ITERMAX  && convergence == 1 ) 
@@ -68,7 +71,6 @@ int main(int argc, char* argv[])
 			cpt ++;
 		}
 
-
 		/** PRECISION ERROR **/
 		for (i = 0; i < totalNode; ++i) 
  		{
@@ -79,6 +81,10 @@ int main(int argc, char* argv[])
 
 		/** WRITE RESULT IN TXT FILE**/
 		print_result_in_txt(fileToRead,totalNode,VectorResult, sum);
+
+		/** FREE **/
+		free(nbrOutwardLink);
+		free(matrix);
 
 	}
 

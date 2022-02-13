@@ -8,32 +8,32 @@
 #include <math.h> //fabs --> absolute value
 
 /**----GLOBAL VARIABLES---------**/
-#define EPSILON 0.000001
+#define EPSILON 0.00000001
 #define JUMPING 0.15
 #define DAMPING 0.85
-#define ITERMAX 100
+#define ITERMAX 500
 
 /**----STRUCTURE---------**/
 typedef struct WebPage
 {
 	int id;
-	unsigned int outwardLink;
+	int outwardLink;
 }WebPage;
 
 typedef struct sparseMatrix
 {
 	double value;
-    unsigned int row;
-    unsigned int column;
+    int row;
+    int column;
 }sparseMatrix;
 
 /**-----PROTOTYPE---------**/
-unsigned int get_highest_node_number(unsigned int* lineNbr, char* fileToRead);
-void get_matrix_from_file(WebPage * nbrOutwardLink,sparseMatrix* matrix, unsigned int fileLineNbr,char* fileToRead);
-void matrix_Vector_multiplication(sparseMatrix matrix[],unsigned int fileLineNbr,double* VectorResult,unsigned int totalNode);
-void print_result_in_txt(char* fileToRead, unsigned int totalNode,double VectorResult[], double sum);
-void print_outward_link(WebPage nbrOutwardLink[], unsigned int highestNodeNbr);
-void print_sparse_matrix(sparseMatrix matrix[],unsigned int fileLineNbr);
-void print_vector_result(double VectorResult[], unsigned int totalNode);
+int get_highest_node_number(int* lineNbr, char* fileToRead);
+void get_matrix_from_file(WebPage * nbrOutwardLink,sparseMatrix* matrix, int fileLineNbr,char* fileToRead);
+void matrix_Vector_multiplication(sparseMatrix* matrix,int fileLineNbr,double* VectorResult,int totalNode);
+void print_result_in_txt(char* fileToRead, int totalNode,double VectorResult[], double sum);
+void print_outward_link(WebPage nbrOutwardLink[], int highestNodeNbr);
+void print_sparse_matrix(sparseMatrix matrix[],int fileLineNbr);
+void print_vector_result(double VectorResult[], int totalNode);
 
 #endif
