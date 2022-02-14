@@ -6,7 +6,7 @@
 
     Parameters
     ----------
-    lineNbr : int*
+    lineNbr : unsigned int*
         pointer of the line counter
     fileToRead : char*
     	name of the file to read
@@ -17,12 +17,12 @@
         the highest node number in the txt file
 
 **/
-int get_highest_node_number(int* lineNbr, char* fileToRead)
+unsigned int get_highest_node_number(unsigned int* lineNbr, char* fileToRead)
 {
 	FILE * file;
 	char word[50];
 	int highestNodeIndex = -1;
-	int tmp = 0;
+	unsigned int tmp = 0;
 	 
 	// Opening file 
 	if ((file = fopen(fileToRead, "r")) == NULL)
@@ -61,16 +61,16 @@ int get_highest_node_number(int* lineNbr, char* fileToRead)
         one-dimensional tab that contains the value, row and column for non-null elements of the transfer matrix
 
 
-    fileLineNbr : int
+    fileLineNbr : unsigned int
         number of line in txt file + size of matrix
     
     fileToRead : char*
         name of the fila to read
 **/
-void get_matrix_from_file(WebPage* nbrOutwardLink,sparseMatrix* matrix, int fileLineNbr, char* fileToRead)
+void get_matrix_from_file(WebPage* nbrOutwardLink,sparseMatrix* matrix, unsigned int fileLineNbr, char* fileToRead)
 {
-	int i = 0;
-	int tmp;
+	unsigned int i = 0;
+	unsigned int tmp;
 	sparseMatrix tmpElement;
 	FILE * file;
 	char word[50];
@@ -117,18 +117,18 @@ void get_matrix_from_file(WebPage* nbrOutwardLink,sparseMatrix* matrix, int file
     Matrix : sparseMatrix*
     	one-dimensional tab that contains the value, row and column for non-null elements of the transfer matrix
 
-	fileLineNbr : int
+	fileLineNbr : unsigned int
     	number of line in txt file + size of matrix
     
     VectorResult : double*
        vector result with the eigen values
 
-    totalNode : int
+    totalNode : unsigned int
     	number of node in graph
 **/
-void matrix_Vector_multiplication(sparseMatrix matrix[],int fileLineNbr,double* VectorResult,int totalNode)
+void matrix_Vector_multiplication(sparseMatrix matrix[],unsigned int fileLineNbr,double* VectorResult,unsigned int totalNode)
 {
-	int i;
+	unsigned int i;
 	float result[totalNode];
 
 	for (i = 0; i < totalNode; ++i) //initializing the calculation vector
@@ -157,9 +157,9 @@ void matrix_Vector_multiplication(sparseMatrix matrix[],int fileLineNbr,double* 
 
 /** PRINT FUNCTIONS **/
 
-void print_result_in_txt(char* fileToRead, int totalNode,double VectorResult[], double sum)
+void print_result_in_txt(char* fileToRead, unsigned int totalNode,double VectorResult[], double sum,unsigned long millis)
 {
-	int i;
+	unsigned int i;
 
 	FILE *fp;
 
@@ -180,16 +180,17 @@ void print_result_in_txt(char* fileToRead, int totalNode,double VectorResult[], 
 	{
     	fprintf(fp,"%d : %lf\n",i, VectorResult[i]);
  	}
-	fprintf(fp, "PRECISION ERROR : %lf",sum);
+	fprintf(fp, "PRECISION ERROR : %lf\n",sum);
+	fprintf(fp, "Finished in %ld ms\n", millis );
 	fclose(fp); //closinf file
 
 	printf("--> Resultats sauvegardés dans %s\n.",name_with_extension);
 	free(name_with_extension); //free space
 }
 
-void print_outward_link(WebPage nbrOutwardLink[], int highestNodeNbr)
+void print_outward_link(WebPage nbrOutwardLink[], unsigned int highestNodeNbr)
 {
-	int i;
+	unsigned int i;
 
 	printf("%s\n", "---------OUTWARD-LINK---------");
 	for (i = 0; i < highestNodeNbr+1; ++i)
@@ -199,9 +200,9 @@ void print_outward_link(WebPage nbrOutwardLink[], int highestNodeNbr)
 	return;
 }
 
-void print_sparse_matrix(sparseMatrix matrix[], int fileLineNbr)
+void print_sparse_matrix(sparseMatrix matrix[], unsigned int fileLineNbr)
 {
-	int i;
+	unsigned int i;
 
 	printf("%s\n", "---------MATRIX---------");
 	for (i = 0; i < fileLineNbr; ++i)
@@ -211,9 +212,9 @@ void print_sparse_matrix(sparseMatrix matrix[], int fileLineNbr)
 	return;
 }
 
-void print_vector_result(double VectorResult[], int totalNode)
+void print_vector_result(double VectorResult[], unsigned int totalNode)
 {
-	int i;
+	unsigned int i;
 
 	printf("%s\n", "---------VECTOR-RESULT---------");
 	for (i = 0; i < totalNode; ++i)

@@ -9,8 +9,13 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
+		/** CLOCK START **/
+		clock_t begin = clock();
+
 		/** VARIABLES **/
 		unsigned int i;
+		unsigned long millis;
+
 		char* fileToRead = argv[1];
 		unsigned int totalNode = atoi(argv[2]);
 
@@ -79,8 +84,13 @@ int main(int argc, char* argv[])
  		sum -= 1;
  		sum = fabs(sum); //absolute value
 
+
+ 		/** CLOCK END **/
+ 		clock_t end = clock();
+ 		millis = (end -  begin) * 1000 / CLOCKS_PER_SEC;
+
 		/** WRITE RESULT IN TXT FILE**/
-		print_result_in_txt(fileToRead,totalNode,VectorResult, sum);
+		print_result_in_txt(fileToRead,totalNode,VectorResult, sum, millis);
 
 		/** FREE **/
 		free(nbrOutwardLink);
