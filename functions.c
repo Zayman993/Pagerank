@@ -165,8 +165,11 @@ void print_result_in_txt(char* fileToRead, unsigned int totalNode,double VectorR
 
 	char* extension = "_Result.txt";
 	char* name_with_extension;
-	name_with_extension = malloc(strlen(fileToRead)+strlen(extension)+1); // name of result file : <fileToRead>_Result.txt
-	strcpy(name_with_extension, fileToRead);
+	name_with_extension = malloc((strlen(fileToRead)-4)+strlen(extension)+1); // name of result file : <fileToRead>_Result.txt
+	for (int i = 0; i < strlen(fileToRead)-4; ++i)
+	{
+		name_with_extension[i] = fileToRead[i]; //take out the '.txt' part in fileToRead
+	}
 	strcat(name_with_extension, extension);
 
 	fp=fopen(name_with_extension, "wb"); //opening file
