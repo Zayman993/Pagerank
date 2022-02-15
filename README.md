@@ -27,6 +27,11 @@ PageRank>$ ./pageRank_exe Slashdot0811.txt 77360
 --> Resultats sauvegardés dans Slashdot0811_Result.txt
 ```
  
+ The program creates a txt file named "file name"_Result.txt 
+ and saves the vector, the error rate and the time of execution.
+ 
+ Example with Slashdot0811.txt :
+
 #### Slashdot0811_Result.txt 
 ```
 -------------VECTOR RESULT-------------
