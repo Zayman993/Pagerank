@@ -9,10 +9,10 @@
 #include <time.h> //clock()
 
 /**----GLOBAL VARIABLES---------**/
-#define EPSILON 0.000001
+#define EPSILON 0.0000001
 #define JUMPING 0.15
 #define DAMPING 0.85
-#define ITERMAX 100
+#define ITERMAX 500
 
 /**----STRUCTURE---------**/
 typedef struct WebPage

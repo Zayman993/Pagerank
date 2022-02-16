@@ -129,7 +129,8 @@ void get_matrix_from_file(WebPage* nbrOutwardLink,sparseMatrix* matrix, unsigned
 void matrix_Vector_multiplication(sparseMatrix matrix[],unsigned int fileLineNbr,double* VectorResult,unsigned int totalNode)
 {
 	unsigned int i;
-	float result[totalNode];
+
+	float* result = (float*)malloc(totalNode*sizeof(float));
 
 	for (i = 0; i < totalNode; ++i) //initializing the calculation vector
 	{
@@ -138,6 +139,7 @@ void matrix_Vector_multiplication(sparseMatrix matrix[],unsigned int fileLineNbr
 
 	for (i = 0; i < fileLineNbr; ++i) //sparse Matrix x vector
 	{
+		printf("%d\n", matrix[i].row);
         result[matrix[i].row] = result[matrix[i].row] + (matrix[i].value * VectorResult[matrix[i].column]);
 	}
     
@@ -151,6 +153,7 @@ void matrix_Vector_multiplication(sparseMatrix matrix[],unsigned int fileLineNbr
         VectorResult[i] = result[i];
     }
 
+    free(result);
     return;
 }
 
@@ -181,7 +184,7 @@ void print_result_in_txt(char* fileToRead, unsigned int totalNode,double VectorR
 	fprintf(fp, "-------------VECTOR RESULT-------------\n"); //priting
 	for (i = 0; i < totalNode; ++i)
 	{
-    	fprintf(fp,"%d : %lf\n",i, VectorResult[i]);
+    	fprintf(fp,"%d : %.10lf\n",i, VectorResult[i]);
  	}
 	fprintf(fp, "PRECISION ERROR : %lf\n",sum);
 	fprintf(fp, "Finished in %ld ms\n", millis );

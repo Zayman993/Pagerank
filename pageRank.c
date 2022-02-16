@@ -26,12 +26,13 @@ int main(int argc, char* argv[])
 
 		double sum = 0;
 
+
 		highestNodeNbr = get_highest_node_number(&fileLineNbr,fileToRead);
 
+
 		/** ARRAY AND MATRIX **/
-		/** ARRAY AND MATRIX **/
-		double VectorResult[totalNode]; 
-		double VectorBackup[totalNode]; 
+		double* VectorResult = (double*) malloc(totalNode*sizeof(double)); 
+		double* VectorBackup  = (double*) malloc(totalNode*sizeof(double)); 
 
 
 		sparseMatrix* matrix = (sparseMatrix*) malloc(fileLineNbr*sizeof(sparseMatrix)); //sparse matrix
@@ -43,7 +44,7 @@ int main(int argc, char* argv[])
 			nbrOutwardLink[i].id = -1;
 			nbrOutwardLink[i].outwardLink = 0;
 		}
- 		
+
  		get_matrix_from_file(nbrOutwardLink,matrix,fileLineNbr, fileToRead); //fill in nbrOutwardLink & Matrix
 
 
@@ -53,7 +54,6 @@ int main(int argc, char* argv[])
  			VectorBackup[i] = (1.0/totalNode);
  		}
 
-
  		/** ITERATION **/
  		while (cpt < ITERMAX  && convergence == 1 ) 
  		{
@@ -62,6 +62,7 @@ int main(int argc, char* argv[])
 			    VectorBackup[i] = VectorResult[i];
 
 			matrix_Vector_multiplication(matrix,fileLineNbr,VectorResult,totalNode); //matrix x vector
+
 
 			for (i = 0; i < totalNode; ++i) //check for convergence
 			{
@@ -95,6 +96,8 @@ int main(int argc, char* argv[])
 		/** FREE **/
 		free(nbrOutwardLink);
 		free(matrix);
+		free(VectorResult);
+		free(VectorBackup);
 
 	}
 
