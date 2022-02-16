@@ -130,7 +130,7 @@ void matrix_Vector_multiplication(sparseMatrix matrix[],unsigned int fileLineNbr
 {
 	unsigned int i;
 
-	float* result = (float*)malloc(totalNode*sizeof(float));
+	double* result = (double*)malloc(totalNode*sizeof(double));
 
 	for (i = 0; i < totalNode; ++i) //initializing the calculation vector
 	{
@@ -139,7 +139,6 @@ void matrix_Vector_multiplication(sparseMatrix matrix[],unsigned int fileLineNbr
 
 	for (i = 0; i < fileLineNbr; ++i) //sparse Matrix x vector
 	{
-		printf("%d\n", matrix[i].row);
         result[matrix[i].row] = result[matrix[i].row] + (matrix[i].value * VectorResult[matrix[i].column]);
 	}
     
@@ -167,13 +166,20 @@ void print_result_in_txt(char* fileToRead, unsigned int totalNode,double VectorR
 	FILE *fp;
 
 	char* extension = "_Result.txt";
-	char* name_with_extension;
-	name_with_extension = malloc((strlen(fileToRead)-4)+strlen(extension)+1); // name of result file : <fileToRead>_Result.txt
-	for (int i = 0; i < strlen(fileToRead)-4; ++i)
+	int size = (strlen(fileToRead)-4)+strlen(extension)+1;
+	char name_with_extension[size];
+
+
+	for ( i = 0; i < strlen(fileToRead)-4; ++i)
 	{
 		name_with_extension[i] = fileToRead[i]; //take out the '.txt' part in fileToRead
 	}
-	strcat(name_with_extension, extension);
+
+	for (i = (strlen(fileToRead)-4); i < size; ++i)
+	{
+		name_with_extension[i] = extension[i-(strlen(fileToRead)-4)]; //adding the extension part
+	}
+
 
 	fp=fopen(name_with_extension, "wb"); //opening file
 	if(fp == NULL)
@@ -191,7 +197,6 @@ void print_result_in_txt(char* fileToRead, unsigned int totalNode,double VectorR
 	fclose(fp); //closinf file
 
 	printf("--> Resultats sauvegardés dans %s\n.",name_with_extension);
-	free(name_with_extension); //free space
 }
 
 void print_outward_link(WebPage nbrOutwardLink[], unsigned int highestNodeNbr)
