@@ -23,9 +23,13 @@ unsigned int get_highest_node_number(unsigned int* lineNbr, char* fileToRead)
 	char word[50];
 	int highestNodeIndex = -1;
 	unsigned int tmp = 0;
+
+	char path[strlen(fileToRead)+6];
+	strcpy(path, "data/");
+	strcat(path, fileToRead);
 	 
 	// Opening file 
-	if ((file = fopen(fileToRead, "r")) == NULL)
+	if ((file = fopen(path, "r")) == NULL)
 		perror("Erreur : lecture du fichier échouée.");
 	 
 	else {
@@ -75,8 +79,12 @@ void get_matrix_from_file(WebPage* nbrOutwardLink,sparseMatrix* matrix, unsigned
 	FILE * file;
 	char word[50];
 
+	char path[strlen(fileToRead)+6];
+	strcpy(path, "data/");
+	strcat(path, fileToRead);
+
 	// Opening file 
-	if ((file = fopen(fileToRead, "r")) == NULL)
+	if ((file = fopen(path, "r")) == NULL)
 		perror("Erreur : lecture du fichier échouée.");
 	 
 	else 
@@ -169,7 +177,6 @@ void print_result_in_txt(char* fileToRead, unsigned int totalNode,double VectorR
 	int size = (strlen(fileToRead)-4)+strlen(extension)+1;
 	char name_with_extension[size];
 
-
 	for ( i = 0; i < strlen(fileToRead)-4; ++i)
 	{
 		name_with_extension[i] = fileToRead[i]; //take out the '.txt' part in fileToRead
@@ -180,8 +187,11 @@ void print_result_in_txt(char* fileToRead, unsigned int totalNode,double VectorR
 		name_with_extension[i] = extension[i-(strlen(fileToRead)-4)]; //adding the extension part
 	}
 
+	char path[size+5]; //adding path
+	strcpy(path, "data/");
+	strcat(path, name_with_extension);
 
-	fp=fopen(name_with_extension, "wb"); //opening file
+	fp=fopen(path, "wb"); //opening file
 	if(fp == NULL)
 	{
 	    perror("Erreur : lecture du fichier échouée.");
@@ -196,7 +206,7 @@ void print_result_in_txt(char* fileToRead, unsigned int totalNode,double VectorR
 	fprintf(fp, "Finished in %ld ms\n", millis );
 	fclose(fp); //closinf file
 
-	printf("--> Resultats sauvegardés dans %s\n.",name_with_extension);
+	printf("--> Resultats sauvegardés dans %s\n.",path);
 }
 
 void print_outward_link(WebPage nbrOutwardLink[], unsigned int highestNodeNbr)
